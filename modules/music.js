@@ -27,7 +27,7 @@ const music = function(bot) {
                 messageArray.shift()
                 messageArray.shift()
 
-                var link = messageArray.join(" ")
+                var link = messageArray[0]
 
                 const stream = ytdl(link, {filter : 'audioonly'});
                 const dispatcher = msg.guild.voiceConnection.playStream(stream, streamOptions);
