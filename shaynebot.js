@@ -22,6 +22,17 @@ bot.on('message', msg => {
     {
         bot.channels.get(retardoCardoChannelId).sendMessage(msg.content)
     }
+
+    if(msg.content.startsWith("Shayne go play ")) {
+        var messageArray = msg.content.split(" ")
+        messageArray.shift()
+        messageArray.shift()
+        messageArray.shift()
+
+        var newGame = messageArray.join(" ")
+        msg.reply("Ok, I'm gonna play " + newGame)
+        bot.user.setGame(newGame)
+    }
 });
 
 bot.on('typingStart', (channel, user) => {
