@@ -29,12 +29,18 @@ bot.on('typingStart', (channel, user) => {
         if(channel.id == nuggetsChannelId) {
             bot.channels.get(retardoCardoChannelId).startTyping()
         }
+        if(channel.id == retardoCardoChannelId) {
+            bot.channels.get(nuggetsChannelId).startTyping()
+        }
     }
 })
 bot.on('typingStop', (channel, user) => {
     if(!user.bot) {
         if (channel.id == nuggetsChannelId) {
             bot.channels.get(retardoCardoChannelId).stopTyping()
+        }
+        if (channel.id == retardoCardoChannelId) {
+            bot.channels.get(nuggetsChannelId).stopTyping()
         }
     }
 })
