@@ -1,6 +1,9 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client({ autoReconnect: true });
 
+const ytdl = require('ytdl-core');
+const streamOptions = { seek: 0, volume: 1 };
+
 var nuggetsServerId = "188384423085998080"
 var retardoCardoServerId = "295227929804275715"
 
@@ -32,6 +35,32 @@ bot.on('message', msg => {
         var newGame = messageArray.join(" ")
         msg.reply("Ok, I'm gonna play " + newGame)
         bot.user.setGame(newGame)
+    }
+
+    if(msg.content.startsWith("Shayne come here")) {
+        if (!msg.guild.voiceConnection) {
+            if (!msg.member.voiceChannel) return msg.channel.sendMessage('Bitch please')
+            msg.member.voiceChannel.join()
+        }
+    }
+
+    if(msg.content.startsWith("Shayne play")) {
+        if(msg.guild.voiceConnection) {
+            var messageArray = msg.content.split(" ")
+            messageArray.shift()
+            messageArray.shift()
+
+            var link = messageArray.join(" ")
+
+            const stream = ytdl(link, {filter : 'audioonly'});
+            const dispatcher = msg.guild.voiceConnection.playStream(stream, streamOptions);
+        }
+    }
+
+    if(msg.content.startsWith("Shayne fuck off")) {
+        if(msg.guild.voiceConnection) {
+            msg.guild.voiceConnection.disconnect()
+        }
     }
 });
 
