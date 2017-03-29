@@ -10,7 +10,10 @@ var retardoCardoChannelId = "296386088199651328"
 bot.on('ready', () => {
     bot.user.setGame("with 50 shades of riven porn")
 });
+
 bot.on('message', msg => {
+
+    let prefix = msg.guild.member(bot.user).displayName
     if(msg.author.bot) {
         return
     }
@@ -22,7 +25,7 @@ bot.on('message', msg => {
     {
         bot.channels.get(retardoCardoChannelId).sendMessage(msg.content)
     }
-    if(msg.content.startsWith("Shayne go play ")) {
+    if(msg.content.startsWith(prefix + " go play ")) {
         var messageArray = msg.content.split(" ")
         messageArray.shift()
         messageArray.shift()
