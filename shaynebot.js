@@ -58,4 +58,4 @@ bot.on('typingStop', (channel, user) => {
     }
 })
 require('./modules/music.js')(bot)
-bot.login(process.env.BOT_TOKEN);
+bot.login(process.env.BOT_TOKEN || process.argv[2);
