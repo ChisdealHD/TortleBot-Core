@@ -22,7 +22,7 @@ const halp = function(ShayneBot) {
         var commands = ShayneBot.getTraditionalCommands()
 
         if(commands.length) {
-            var replyMsg = "Also these: \`\`\`"
+            var replyMsg = "U in need, I halp! \`\`\`"
 
             for (var i = 0; i < commands.length; i++) {
                 replyMsg += ShayneBot.getPrefix() + commands[i].index + "\n"
