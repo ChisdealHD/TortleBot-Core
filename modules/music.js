@@ -5,12 +5,31 @@
 const ytdl = require('ytdl-core');
 const streamOptions = { seek: 0, volume: 1 };
 const dispatchers = []
+const nowPlaying = []
 const queue = []
 
 const music = function(ShayneBot) {
     this.joinVoice = function(message) {
         if (!message.member.voiceChannel) return message.channel.sendMessage('Bitch please')
         message.member.voiceChannel.join()
+    }
+
+    this.endCurrentSong = function(message) {
+        if(typeof dispatchers[message.guild.id] !== 'undefined') {
+            dispatchers[message.guild.id].dispatcher.end()
+            return true
+        }
+        return false
+    }
+
+    this.removeDispatcher = function(message) {
+        if(typeof dispatchers[message.guild.id] !== 'undefined') {
+            dispatchers[message.guild.id].dispatcher.end()
+            dispatchers[message.guild.id] = null
+            delete dispatchers[message.guild.id]
+            return true
+        }
+        return false
     }
 
     this.verifyURL = function(url) {
@@ -20,15 +39,38 @@ const music = function(ShayneBot) {
         return true
     }
 
+    this.addSongToQueue = function(message, url, force) {
+        if(!verifyURL(url)) return message.channel.sendMessage("Invalid Youtube URL")
+
+        if(typeof queue[message.guild.id] == 'undefined') {
+            queue[message.guild.id] = []
+        }
+
+        var payload = {
+            url: url,
+            from: message.author.username
+        }
+
+        if(force) {
+            queue[message.guild.id].unshift(payload, nowPlaying[message.guild.id])
+            this.endCurrentSong(message)
+        }else {
+            queue[message.guild.id].push(payload)
+        }
+        this.processQueue(message);
+    }
+
+
     this.processQueue = function(message) {
         let id = message.guild.id
-        //if the dispatcher hasn't ended, return
 
         if(typeof dispatchers[id] !== 'undefined' && !dispatchers[id].ended) return
         if(!message.guild.voiceConnection) return
 
+        let next = queue[id].shift()
 
-        const stream = ytdl(queue[id][0].url, {filter : 'audioonly'});
+        const stream = ytdl(next.url, {filter : 'audioonly'});
+        nowPlaying[id] = next
 
         stream.on('error', function(error) {
             return message.channel.sendMessage("Something went wrong playing the video.");
@@ -43,48 +85,31 @@ const music = function(ShayneBot) {
         }
 
         dispatcher.on("end", () => {
-            nextSong(message)
+            dispatchers[id].ended = true
+            nowPlaying[id] = null
+            if(queue[id].length) {
+                setTimeout(()=> {
+                    this.processQueue(message)
+                }, 200)
+            }else {
+                this.removeDispatcher(message)
+            }
         })
     }
 
-    this.nextSong = function(message) {
-        let id = message.guild.id
-        if(typeof queue[id] == 'undefined' || queue[id] == null) {
-            message.channel.sendMessage("Queue is empty")
-            return
-        }
-        if(queue[id].length <= 1) {
-            //Pause video if it's being skipped while it's the only one playing and remove it from the queue
-            dispatchers[id].dispatcher.pause()
-            queue[id].shift()
-            return
-        }
-        queue[id].shift()
-        dispatchers[id].ended = true
-        setTimeout(()=> {
-            processQueue(message)
-        }, 200)
-    }
-
     ShayneBot.addTraditionalCommand('np', message => {
-        if(queue[message.guild.id].length) {
-            message.reply("Now playing: " + queue[message.guild.id][0].url)
+        if(typeof nowPlaying[message.guild.id] !== 'undefined' && typeof nowPlaying[id] !== null && message.guild.voiceConnection) {
+            message.reply("Now playing: " + nowPlaying[id].url)
         }else {
-            message.reply("Queue is empty :c")
+            message.reply("Currently idle.")
         }
     })
 
     ShayneBot.addTraditionalCommand('skip', message => {
         if (!message.member.voiceChannel) return message.reply("YOU'RE NOT EVEN LISTENING!")
 
-        if(typeof dispatchers[message.guild.id] !== 'undefined') {
-            dispatchers[message.guild.id].dispatcher.end()
-            dispatchers[message.guild.id].ended = true
-            message.reply("Lmao fuck this song, right?")
-            return
-        }
-
-        message.reply("I'm not even playing anything.")
+        if(endCurrentSong(message)) return message.reply("Lmao fuck this song, right?")
+        message.reply("I'm not even playing..")
     })
 
     ShayneBot.addTraditionalCommand('queue', message => {
@@ -113,22 +138,24 @@ const music = function(ShayneBot) {
 
             var link = messageArray[0]
 
-            if(!verifyURL(link)) {
-                return message.channel.sendMessage("Invalid Youtube URL")
-            }
-
-            if(typeof queue[message.guild.id] == 'undefined') {
-                queue[message.guild.id] = []
-            }
-
-            queue[message.guild.id].push({
-                url: link,
-            })
-
-            processQueue(message);
+            addSongToQueue(message, link)
 
         }else {
-            message.reply("Lure me in first, Daddy pls")
+            message.reply("I'm not in a voice channel please spawn me in first")
+        }
+    })
+
+    ShayneBot.addTraditionalCommand("forceplay", message => {
+        if(message.guild.voiceConnection) {
+            var messageArray = message.content.split(" ")
+            messageArray.shift()
+
+            var link = messageArray[0]
+
+            this.addSongToQueue(message, link, true)
+
+        }else {
+            message.reply("I'm not in a voice channel please spawn me in first")
         }
     })
 
@@ -146,11 +173,7 @@ const music = function(ShayneBot) {
 
     ShayneBot.addCommand("go away", message => {
         if(message.guild.voiceConnection) {
-            if(typeof dispatchers[message.guild.id] !== 'undefinedWhy') {
-                dispatchers[message.guild.id].dispatcher.end()
-                dispatchers[message.guild.id] = null
-                delete dispatchers[message.guild.id]
-            }
+            removeDispatcher(message)
             message.guild.voiceConnection.disconnect()
         }
     })
