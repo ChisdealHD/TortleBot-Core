@@ -24,9 +24,8 @@ const music = function(ShayneBot) {
         let id = message.guild.id
         //if the dispatcher hasn't ended, return
 
-        if(typeof dispatchers[id] !== 'undefined' && !dispatchers[id].ended) {
-            return
-        }
+        if(typeof dispatchers[id] !== 'undefined' && !dispatchers[id].ended) return
+        if(!message.guild.voiceConnection) return
 
 
         const stream = ytdl(queue[id][0].url, {filter : 'audioonly'});
