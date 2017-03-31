@@ -16,7 +16,9 @@ const halp = function(ShayneBot) {
             replyMsg += "\`\`\`"
             message.reply(replyMsg)
         }
+    })
 
+    ShayneBot.addTraditionalCommand("halp", message => {
         var commands = ShayneBot.getTraditionalCommands()
 
         if(commands.length) {

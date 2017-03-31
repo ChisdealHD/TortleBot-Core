@@ -12,7 +12,7 @@ const channellink = function(ShayneBot) {
 
     bot = ShayneBot.client
     bot.on('ready', () => {
-        bot.user.setGame("memes")
+        bot.user.setGame("!halp")
     });
 
     bot.on('message', msg => {
