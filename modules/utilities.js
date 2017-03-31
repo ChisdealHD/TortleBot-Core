@@ -2,15 +2,15 @@
  * Created by TortleWortle on 3/31/2017.
  */
 
-const halp = function(ShayneBot) {
-    ShayneBot.addCommand("halp", message => {
-        var commands = ShayneBot.getCommands()
+const halp = function(TortleBot) {
+    TortleBot.addCommand("halp", message => {
+        var commands = TortleBot.getCommands()
 
         if(commands.length) {
             var replyMsg = "I listen to these words my lord: \`\`\`"
 
             for (var i = 0; i < commands.length; i++) {
-                replyMsg += ShayneBot.getDisplayName(message) + " " + commands[i].index + "\n"
+                replyMsg += TortleBot.getDisplayName(message) + " " + commands[i].index + "\n"
             }
 
             replyMsg += "\`\`\`"
@@ -18,14 +18,14 @@ const halp = function(ShayneBot) {
         }
     })
 
-    ShayneBot.addTraditionalCommand("halp", message => {
-        var commands = ShayneBot.getTraditionalCommands()
+    TortleBot.addTraditionalCommand("halp", message => {
+        var commands = TortleBot.getTraditionalCommands()
 
         if(commands.length) {
             var replyMsg = "U in need, I halp! \`\`\`"
 
             for (var i = 0; i < commands.length; i++) {
-                replyMsg += ShayneBot.getPrefix() + commands[i].index + "\n"
+                replyMsg += TortleBot.getPrefix() + commands[i].index + "\n"
             }
 
             replyMsg += "\`\`\`"

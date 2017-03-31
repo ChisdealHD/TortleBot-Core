@@ -8,9 +8,9 @@ const retardoCardoServerId = "295227929804275715"
 const nuggetsChannelId = "296387556864557058"
 const retardoCardoChannelId = "296386088199651328"
 
-const channellink = function(ShayneBot) {
+const channellink = function(TortleBot) {
 
-    bot = ShayneBot.client
+    bot = TortleBot.client
     bot.on('ready', () => {
         bot.user.setGame("!halp")
     });

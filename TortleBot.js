@@ -1,7 +1,13 @@
-const ShayneBot = function(client) {
+const Discord = require("discord.js");
+const client = new Discord.Client({ autoReconnect: true });
+
+const TortleBot = function(token) {
+    client.login(token)
     this.client = client
     this.traditionalCommands = []
     this.commands = []
+    this.data = []
+    this.config = null
     this.defaultPrefix = "!"
 
     this.client.on('message', msg => {
@@ -12,7 +18,7 @@ const ShayneBot = function(client) {
 }
 
 
-ShayneBot.prototype.handleMessage = function(message) {
+TortleBot.prototype.handleMessage = function(message) {
     if(message.author.bot) {
         return
     }
@@ -44,37 +50,51 @@ ShayneBot.prototype.handleMessage = function(message) {
 }
 
 //Traditional command as in !play etc
-ShayneBot.prototype.addTraditionalCommand = function(index, handler) {
+TortleBot.prototype.addTraditionalCommand = function(index, handler) {
     this.traditionalCommands.push({
         index,
         handler
     })
 }
-ShayneBot.prototype.addCommand = function(index, handler) {
+TortleBot.prototype.addCommand = function(index, handler) {
     this.commands.push({
         index,
         handler
     })
 }
 
-ShayneBot.prototype.getCommands = function() {
+TortleBot.prototype.getCommands = function() {
     return this.commands
 }
-ShayneBot.prototype.getTraditionalCommands = function() {
+TortleBot.prototype.getTraditionalCommands = function() {
     return this.traditionalCommands
 }
-
-ShayneBot.prototype.getDisplayName = function(message) {
+TortleBot.prototype.setGame = function (game){
+    return this.client.setGame(game)
+}
+TortleBot.prototype.getDisplayName = function(message) {
     return message.guild.member(this.client.user).displayName
 }
-ShayneBot.prototype.getPrefix = function() {
+TortleBot.prototype.getPrefix = function() {
     //temporary
     // Gets the defaultprefix (future is gonna be an array[DiscId] = Prefix)
     return this.defaultPrefix
 }
-ShayneBot.prototype.setPrefix = function(prefix) {
+TortleBot.prototype.setPrefix = function(prefix) {
     // temporary
     // Sets the defaultprefix (future is gonna be an array[DiscId] = Prefix)
     return this.defaultPrefix = prefix
 }
-module.exports = ShayneBot
+TortleBot.prototype.registerModule = function(module) {
+    module(this)
+}
+TortleBot.prototype.get = function(index, defaultValue) {
+    if(this.data[index] !== 'undefined') {
+        return this.data[index]
+    }
+    return defaultValue
+}
+TortleBot.prototype.set = function(index, value) {
+    return this.data[index] = value
+}
+module.exports = TortleBot

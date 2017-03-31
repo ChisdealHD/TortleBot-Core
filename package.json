@@ -1,8 +1,8 @@
 {
-  "name": "shaynebot",
+  "name": "tortlebot",
   "version": "1.0.0",
   "description": "",
-  "main": "shaynebot.js",
+  "main": "TortleBot.js",
   "dependencies": {
     "discord.js": "^11.0.0",
     "ytdl-core": "^0.10.3"
@@ -11,6 +11,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "tortlewortle",
   "license": "ISC"
 }

@@ -8,7 +8,7 @@ const dispatchers = []
 const nowPlaying = []
 const queue = []
 
-const music = function(ShayneBot) {
+const music = function(TortleBot) {
     this.joinVoice = function(message) {
         if (!message.member.voiceChannel) return message.channel.sendMessage('Bitch please')
         message.member.voiceChannel.join()
@@ -97,7 +97,7 @@ const music = function(ShayneBot) {
         })
     }
 
-    ShayneBot.addTraditionalCommand('np', message => {
+    TortleBot.addTraditionalCommand('np', message => {
         if(typeof nowPlaying[message.guild.id] !== 'undefined' && typeof nowPlaying[id] !== null && message.guild.voiceConnection) {
             message.reply("Now playing: " + nowPlaying[id].url)
         }else {
@@ -105,14 +105,14 @@ const music = function(ShayneBot) {
         }
     })
 
-    ShayneBot.addTraditionalCommand('skip', message => {
+    TortleBot.addTraditionalCommand('skip', message => {
         if (!message.member.voiceChannel) return message.reply("YOU'RE NOT EVEN LISTENING!")
 
         if(endCurrentSong(message)) return message.reply("Lmao fuck this song, right?")
         message.reply("I'm not even playing..")
     })
 
-    ShayneBot.addTraditionalCommand('queue', message => {
+    TortleBot.addTraditionalCommand('queue', message => {
         if(typeof queue[message.guild.id] !== 'undefined' && queue[message.guild.id].length) {
             var replyMsg = "Current playlist: \`\`\`"
 
@@ -128,12 +128,11 @@ const music = function(ShayneBot) {
     })
 
 
-    ShayneBot.addCommand("come here", this.joinVoice)
+    TortleBot.addTraditionalCommand("spawn", this.joinVoice)
 
-    ShayneBot.addCommand("play", message => {
+    TortleBot.addTraditionalCommand("play", message => {
         if(message.guild.voiceConnection) {
             var messageArray = message.content.split(" ")
-            messageArray.shift()
             messageArray.shift()
 
             var link = messageArray[0]
@@ -145,7 +144,7 @@ const music = function(ShayneBot) {
         }
     })
 
-    ShayneBot.addTraditionalCommand("forceplay", message => {
+    TortleBot.addTraditionalCommand("forceplay", message => {
         if(message.guild.voiceConnection) {
             var messageArray = message.content.split(" ")
             messageArray.shift()
@@ -159,19 +158,19 @@ const music = function(ShayneBot) {
         }
     })
 
-    ShayneBot.addCommand("pause", message => {
+    TortleBot.addTraditionalCommand("pause", message => {
         if(message.guild.voiceConnection && dispatchers[message.guild.id] != null) {
             dispatchers[message.guild.id].dispatcher.pause()
         }
     })
 
-    ShayneBot.addCommand("resume", message => {
+    TortleBot.addTraditionalCommand("resume", message => {
         if(message.guild.voiceConnection && dispatchers[message.guild.id] != null) {
             dispatchers[message.guild.id].dispatcher.resume()
         }
     })
 
-    ShayneBot.addCommand("go away", message => {
+    TortleBot.addTraditionalCommand("leave", message => {
         if(message.guild.voiceConnection) {
             removeDispatcher(message)
             message.guild.voiceConnection.disconnect()
