@@ -16,6 +16,19 @@ const halp = function(ShayneBot) {
             replyMsg += "\`\`\`"
             message.reply(replyMsg)
         }
+
+        var commands = ShayneBot.getTraditionalCommands()
+
+        if(commands.length) {
+            var replyMsg = "Also these: \`\`\`"
+
+            for (var i = 0; i < commands.length; i++) {
+                replyMsg += ShayneBot.getPrefix + " " + commands[i].index + "\n"
+            }
+
+            replyMsg += "\`\`\`"
+            message.reply(replyMsg)
+        }
     })
 }
 

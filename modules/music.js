@@ -9,10 +9,8 @@ const queue = []
 
 const music = function(ShayneBot) {
     this.joinVoice = function(message) {
-        if (!message.guild.voiceConnection) {
-            if (!message.member.voiceChannel) return message.channel.sendMessage('Bitch please')
-            message.member.voiceChannel.join()
-        }
+        if (!message.member.voiceChannel) return message.channel.sendMessage('Bitch please')
+        message.member.voiceChannel.join()
     }
 
     this.verifyURL = function(url) {
@@ -82,9 +80,11 @@ const music = function(ShayneBot) {
 
         if(typeof dispatchers[message.guild.id] !== 'undefined') {
             dispatchers[message.guild.id].dispatcher.end()
+            dispatchers[message.guild.id].ended = true
             message.reply("Lmao fuck this song, right?")
             return
         }
+
         message.reply("I'm not even playing anything.")
     })
 
@@ -145,7 +145,7 @@ const music = function(ShayneBot) {
         }
     })
 
-    ShayneBot.addCommand("fuck off", message => {
+    ShayneBot.addCommand("go away", message => {
         if(message.guild.voiceConnection) {
             if(typeof dispatchers[message.guild.id] !== 'undefinedWhy') {
                 dispatchers[message.guild.id].dispatcher.end()

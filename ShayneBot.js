@@ -60,6 +60,9 @@ ShayneBot.prototype.addCommand = function(index, handler) {
 ShayneBot.prototype.getCommands = function() {
     return this.commands
 }
+ShayneBot.prototype.getTraditionalCommands = function() {
+    return this.traditionalCommands
+}
 
 ShayneBot.prototype.getDisplayName = function(message) {
     return message.guild.member(this.client.user).displayName
