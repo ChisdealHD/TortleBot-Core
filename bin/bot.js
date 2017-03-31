@@ -9,6 +9,6 @@ const bot = new ShayneBot(client)
 require('../modules/channellink.js')(bot)
 require('../modules/music.js')(bot)
 require('../modules/goplay.js')(bot)
-require('../modules/halp.js')(bot)
+require('../modules/utilities.js')(bot)
 
 client.login(process.env.BOT_TOKEN || process.argv[2]);

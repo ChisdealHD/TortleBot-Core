@@ -21,9 +21,9 @@ ShayneBot.prototype.handleMessage = function(message) {
     //If there are any tradition commands loop over them and handle them
     if(this.traditionalCommands.length) {
         for(var i = 0; i < this.traditionalCommands.length; i++) {
-            var index = this.commands[i].index
-            var handler = this.commands[i].handler
-            if(msgContent.startsWith(index.toLowerCase() + " ")) {
+            var index = this.traditionalCommands[i].index
+            var handler = this.traditionalCommands[i].handler
+            if(msgContent.startsWith(this.defaultPrefix.toLowerCase() + index.toLowerCase())) {
                 handler(message)
             }
         }

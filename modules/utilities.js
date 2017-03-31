@@ -10,7 +10,6 @@ const halp = function(ShayneBot) {
             var replyMsg = "I listen to these words my lord: \`\`\`"
 
             for (var i = 0; i < commands.length; i++) {
-                console.log(commands[i].index)
                 replyMsg += ShayneBot.getDisplayName(message) + " " + commands[i].index + "\n"
             }
 
