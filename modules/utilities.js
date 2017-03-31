@@ -23,7 +23,7 @@ const halp = function(ShayneBot) {
             var replyMsg = "Also these: \`\`\`"
 
             for (var i = 0; i < commands.length; i++) {
-                replyMsg += ShayneBot.getPrefix + " " + commands[i].index + "\n"
+                replyMsg += ShayneBot.getPrefix() + commands[i].index + "\n"
             }
 
             replyMsg += "\`\`\`"
