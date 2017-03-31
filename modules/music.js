@@ -6,68 +6,61 @@ const ytdl = require('ytdl-core');
 const streamOptions = { seek: 0, volume: 1 };
 const dispatchers = []
 
-const music = function(bot) {
-
-    bot.on('message', msg => {
-
-        let prefix = msg.guild.member(bot.user).displayName
-
-        if(msg.author.bot) {
-            return
+const music = function(ShayneBot) {
+    this.joinVoice = function(message) {
+        if (!message.guild.voiceConnection) {
+            if (!message.member.voiceChannel) return message.channel.sendMessage('Bitch please')
+            message.member.voiceChannel.join()
         }
+    }
 
-        if(msg.content.startsWith(prefix + " come here")) {
-            if (!msg.guild.voiceConnection) {
-                if (!msg.member.voiceChannel) return msg.channel.sendMessage('Bitch please')
-                msg.member.voiceChannel.join()
+    ShayneBot.addCommand("come here", this.joinVoice)
+
+    ShayneBot.addCommand("play", message => {
+        if(message.guild.voiceConnection) {
+            var messageArray = message.content.split(" ")
+            messageArray.shift()
+            messageArray.shift()
+
+            var link = messageArray[0]
+
+            if(!link.includes("https://" || "http://" || "youtube.com" || "youtu.be")) {
+                return message.channel.sendMessage("pls gib yt link.");
             }
+            const stream = ytdl(link, {filter : 'audioonly'});
+
+            stream.on('error', function(error) {
+                return message.channel.sendMessage("Could not play video.");
+            })
+
+            const dispatcher = message.guild.voiceConnection.playStream(stream, streamOptions);
+            dispatchers[message.channel.id] = dispatcher
+        }else {
+            message.reply("Lure me in first, Daddy pls")
         }
+    })
 
-        if(msg.content.startsWith(prefix + " play")) {
-            if(msg.guild.voiceConnection) {
-                var messageArray = msg.content.split(" ")
-                messageArray.shift()
-                messageArray.shift()
+    ShayneBot.addCommand("pause", message => {
+        if(message.guild.voiceConnection && dispatchers[message.channel.id] != null) {
+            dispatchers[message.channel.id].pause()
+        }
+    })
 
-                var link = messageArray[0]
+    ShayneBot.addCommand("resume", message => {
+        if(message.guild.voiceConnection && dispatchers[message.channel.id] != null) {
+            dispatchers[message.channel.id].resume()
+        }
+    })
 
-                if(!link.includes("https://" || "http://" || "youtube.com" || "youtu.be")) {
-                    return msg.channel.sendMessage("pls gib yt link.");
-                }
-                const stream = ytdl(link, {filter : 'audioonly'});
-
-                stream.on('error', function(error) {
-                    return msg.channel.sendMessage("Could not play video.");
-                })
-
-                const dispatcher = msg.guild.voiceConnection.playStream(stream, streamOptions);
-                dispatchers[msg.channel.id] = dispatcher
+    ShayneBot.addCommand("fuck off", message => {
+        if(message.guild.voiceConnection) {
+            if(dispatchers[message.channel.id] != null) {
+                dispatchers[message.channel.id].end()
+                dispatchers[message.channel.id] = null
+                delete dispatchers[message.channel.id]
             }
+            message.guild.voiceConnection.disconnect()
         }
-
-        if(msg.content.startsWith(prefix + " pause")) {
-            if(msg.guild.voiceConnection && dispatchers[msg.channel.id] != null) {
-                dispatchers[msg.channel.id].pause()
-            }
-        }
-
-        if(msg.content.startsWith(prefix + " resume")) {
-            if(msg.guild.voiceConnection && dispatchers[msg.channel.id] != null) {
-                dispatchers[msg.channel.id].resume()
-            }
-        }
-
-        if(msg.content.startsWith(prefix + " fuck off")) {
-            if(msg.guild.voiceConnection) {
-                if(dispatchers[msg.channel.id] != null) {
-                    dispatchers[msg.channel.id].end()
-                    dispatchers[msg.channel.id] = null
-                    delete dispatchers[msg.channel.id]
-                }
-                msg.guild.voiceConnection.disconnect()
-            }
-        }
-    });
+    })
 }
-
 module.exports = music

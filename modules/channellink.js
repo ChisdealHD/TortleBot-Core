@@ -8,7 +8,9 @@ const retardoCardoServerId = "295227929804275715"
 const nuggetsChannelId = "296387556864557058"
 const retardoCardoChannelId = "296386088199651328"
 
-const channellink = function(bot) {
+const channellink = function(ShayneBot) {
+
+    bot = ShayneBot.client
     bot.on('ready', () => {
         bot.user.setGame("with 50 shades of riven porn")
     });

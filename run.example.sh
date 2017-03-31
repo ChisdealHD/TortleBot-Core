@@ -1,1 +1,1 @@
-BOT_TOKEN=[YOUR BOT TOKEN] node shaynebot.js
+BOT_TOKEN=[YOUR BOT TOKEN] node bin/bot.js
