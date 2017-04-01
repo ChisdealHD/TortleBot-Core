@@ -11,7 +11,7 @@ const goplay = function(TortleBot) {
 
             var newGame = messageArray.join(" ")
             message.reply("Ok, I'm gonna play " + newGame)
-            bot.user.setGame(newGame)
+            TortleBot.client.user.setGame(newGame)
         })
     }
 
