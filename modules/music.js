@@ -117,7 +117,7 @@ const music = function(TortleBot) {
             var replyMsg = "Up next: \`\`\`"
 
             for (var i = 0; i < queue[message.guild.id].length; i++) {
-                replyMsg += i + 1 + queue[message.guild.id][i].url + "\n"
+                replyMsg += (i + 1) + " - " + queue[message.guild.id][i].url + "\n"
             }
 
             replyMsg += "\`\`\`"
