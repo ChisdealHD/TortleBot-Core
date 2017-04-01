@@ -99,7 +99,7 @@ const music = function(TortleBot) {
 
     TortleBot.addTraditionalCommand('np', message => {
         if(typeof nowPlaying[message.guild.id] !== 'undefined' && typeof nowPlaying[message.guild.id] !== null && message.guild.voiceConnection) {
-            message.reply("Now playing: " + nowPlaying[id].url)
+            message.reply("Now playing: " + nowPlaying[message.guild.i].url)
         }else {
             message.reply("Currently idle.")
         }
