@@ -1,2 +1,2 @@
 # TortleBot
-This is a mini bot framework build upon [Discord.js](discord.js.org)
+This is a simple wrapper build around [Discord.js](discord.js.org)

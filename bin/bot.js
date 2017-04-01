@@ -5,9 +5,9 @@
 const TortleBot = require('../TortleBot')
 const bot = new TortleBot(process.env.BOT_TOKEN || process.argv[2])
 
-require('../modules/channellink.js')(bot)
-require('../modules/music.js')(bot)
-require('../modules/goplay.js')(bot)
-require('../modules/utilities.js')(bot)
+bot.registerModule(require('../modules/channellink.js'))
+bot.registerModule(require('../modules/music.js'))
+bot.registerModule(require('../modules/goplay.js'))
+bot.registerModule(require('../modules/utilities.js'))
 
 process.on('unhandledRejection', console.error);

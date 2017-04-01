@@ -98,7 +98,7 @@ const music = function(TortleBot) {
     }
 
     TortleBot.addTraditionalCommand('np', message => {
-        if(typeof nowPlaying[message.guild.id] !== 'undefined' && typeof nowPlaying[id] !== null && message.guild.voiceConnection) {
+        if(typeof nowPlaying[message.guild.id] !== 'undefined' && typeof nowPlaying[message.guild.id] !== null && message.guild.voiceConnection) {
             message.reply("Now playing: " + nowPlaying[id].url)
         }else {
             message.reply("Currently idle.")
@@ -114,10 +114,10 @@ const music = function(TortleBot) {
 
     TortleBot.addTraditionalCommand('queue', message => {
         if(typeof queue[message.guild.id] !== 'undefined' && queue[message.guild.id].length) {
-            var replyMsg = "Current playlist: \`\`\`"
+            var replyMsg = "Up next: \`\`\`"
 
             for (var i = 0; i < queue[message.guild.id].length; i++) {
-                replyMsg += queue[message.guild.id][i].url + "\n"
+                replyMsg += i + 1 + queue[message.guild.id][i].url + "\n"
             }
 
             replyMsg += "\`\`\`"
