@@ -27,15 +27,12 @@ const channellink = function(TortleBot) {
         }
         if (msg.channel.id == nuggetsChannelId)
         {
-            bot.channels.get(retardoCardoChannelId).sendMessage(msg.content)
+            msg.rely("This is a one-way chat now.")
         }
     });
 
     bot.on('typingStart', (channel, user) => {
         if(!user.bot) {
-            if(channel.id == nuggetsChannelId) {
-                bot.channels.get(retardoCardoChannelId).startTyping()
-            }
             if(channel.id == retardoCardoChannelId) {
                 bot.channels.get(nuggetsChannelId).startTyping()
             }
@@ -43,9 +40,6 @@ const channellink = function(TortleBot) {
     })
     bot.on('typingStop', (channel, user) => {
         if(!user.bot) {
-            if (channel.id == nuggetsChannelId) {
-                bot.channels.get(retardoCardoChannelId).stopTyping()
-            }
             if (channel.id == retardoCardoChannelId) {
                 bot.channels.get(nuggetsChannelId).stopTyping()
             }
