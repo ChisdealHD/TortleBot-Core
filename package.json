@@ -1,11 +1,11 @@
 {
-  "name": "tortlebot",
+  "name": "tortlebot-core",
   "version": "1.0.0",
   "description": "",
   "main": "TortleBot.js",
   "dependencies": {
     "discord.js": "^11.0.0",
-    "ytdl-core": "^0.10.3"
+    "tortlebot-music": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {
