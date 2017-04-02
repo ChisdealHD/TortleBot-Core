@@ -67,7 +67,7 @@ const music = function(TortleBot) {
         if(typeof dispatchers[id] !== 'undefined' && !dispatchers[id].ended) return
         if(!message.guild.voiceConnection) return
 
-        let next = queue[id].shift()
+        let next = queue[id][0]
 
         const stream = ytdl(next.url, {filter : 'audioonly'});
         nowPlaying[id] = next
@@ -87,6 +87,7 @@ const music = function(TortleBot) {
         dispatcher.on("end", () => {
             dispatchers[id].ended = true
             nowPlaying[id] = null
+            queue[id].shift()
             if(queue[id].length) {
                 setTimeout(()=> {
                     this.processQueue(message)
@@ -112,7 +113,7 @@ const music = function(TortleBot) {
         message.reply("I'm not even playing..")
     })
 
-    TortleBot.addTraditionalCommand('queue', message => {
+    TortleBot.addTraditionalCommand('playlist', message => {
         if(typeof queue[message.guild.id] !== 'undefined' && queue[message.guild.id].length) {
             var replyMsg = "Up next: \`\`\`"
 
