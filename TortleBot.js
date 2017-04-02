@@ -1,5 +1,3 @@
-const Discord = require("discord.js");
-
 const TortleBot = function(client) {
     this.client = client
     this.traditionalCommands = []

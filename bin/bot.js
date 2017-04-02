@@ -3,6 +3,7 @@
  */
 // This is an example bot
 const TortleBot = require('../TortleBot')
+const Discord = require("discord.js");
 const client = new Discord.Client({ autoReconnect: true });
 
 client.login(process.env.BOT_TOKEN || process.argv[2])
