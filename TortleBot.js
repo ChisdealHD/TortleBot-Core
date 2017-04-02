@@ -1,8 +1,6 @@
 const Discord = require("discord.js");
-const client = new Discord.Client({ autoReconnect: true });
 
-const TortleBot = function(token) {
-    client.login(token)
+const TortleBot = function(client) {
     this.client = client
     this.traditionalCommands = []
     this.commands = []
@@ -70,7 +68,7 @@ TortleBot.prototype.getTraditionalCommands = function() {
     return this.traditionalCommands
 }
 TortleBot.prototype.setGame = function (game){
-    return this.client.setGame(game)
+    return this.client.user.setGame(game)
 }
 TortleBot.prototype.getDisplayName = function(message) {
     return message.guild.member(this.client.user).displayName

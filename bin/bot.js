@@ -3,7 +3,11 @@
  */
 // This is an example bot
 const TortleBot = require('../TortleBot')
-const bot = new TortleBot(process.env.BOT_TOKEN || process.argv[2])
+const client = new Discord.Client({ autoReconnect: true });
+
+client.login(process.env.BOT_TOKEN || process.argv[2])
+
+const bot = new TortleBot(client)
 
 // bot.registerModule(require('../modules/channellink.js'))
 bot.registerModule(require('tortlebot-music'))
