@@ -5,7 +5,6 @@
   "main": "TortleBot.js",
   "dependencies": {
     "discord.js": "^11.0.0",
-    "tortlebot-music": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {
