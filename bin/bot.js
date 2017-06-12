@@ -10,8 +10,6 @@ client.login(process.env.BOT_TOKEN || process.argv[2])
 
 const bot = new TortleBot(client)
 
-// bot.registerModule(require('../modules/channellink.js'))
-bot.registerModule(require('tortlebot-music'))
 bot.registerModule(require('../modules/goplay.js'))
 bot.registerModule(require('../modules/utilities.js'))
 
